@@ -8,6 +8,7 @@ require (
 	github.com/gorilla/context v1.1.2 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/gorilla/sessions v1.2.2 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/wader/gormstore/v2 v2.0.3 // indirect
 )
 

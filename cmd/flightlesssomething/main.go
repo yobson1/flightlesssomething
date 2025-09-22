@@ -4,6 +4,8 @@ import (
 	"flightlesssomething"
 	"fmt"
 	"log"
+
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -11,6 +13,7 @@ var (
 )
 
 func main() {
+	godotenv.Load()
 	c, err := flightlesssomething.NewConfig()
 	if err != nil {
 		log.Fatalln("Failed to get config:", err)
