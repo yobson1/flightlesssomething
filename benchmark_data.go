@@ -185,7 +185,7 @@ func readBenchmarkFile(scanner *bufio.Scanner, fileType int) (*BenchmarkData, er
 				if ok {
 					// Contains number that represents kilobytes
 					bytes := new(big.Int).Mul(kilobytes, big.NewInt(1024))
-					benchmarkData.SpecRAM = humanize.Bytes(bytes.Uint64())
+					benchmarkData.SpecRAM = humanize.BigIBytes(bytes)
 				} else {
 					// Contains humanized (or invalid) value, so no conversion needed
 					benchmarkData.SpecRAM = truncateString(strings.TrimSpace(v))
