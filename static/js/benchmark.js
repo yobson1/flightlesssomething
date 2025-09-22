@@ -369,9 +369,9 @@ const avgFPSData2 = fpsDataArrays.map((dataArray) =>
     calculateAverage(dataArray.data)
 );
 
-// Calculate FPS as a percentage of the first element
-const firstFPS = avgFPSData2[0];
-const percentageFPSData = avgFPSData2.map((fps) => (fps / firstFPS) * 100);
+// Calculate FPS as a percentage of the lowest baseline
+const baselineFPS = Math.min(...avgFPSData2);
+const percentageFPSData = avgFPSData2.map((fps) => (fps / baselineFPS) * 100);
 
 // Ensure the minimum FPS percentage is 100%
 const minPercentage = Math.min(...percentageFPSData);
@@ -628,10 +628,10 @@ const avgFrametimeData2 = frameTimeDataArrays.map((dataArray) =>
     calculateAverage(dataArray.data)
 );
 
-// Calculate Frametime as a percentage of the first element
-const firstFrametime = avgFrametimeData2[0];
+// Calculate Frametime as a percentage of the lowest baseline
+const baselineFrametime = Math.min(...avgFrametimeData2);
 const percentageFrametimeData = avgFrametimeData2.map(
-    (frametime) => (frametime / firstFrametime) * 100
+    (frametime) => (frametime / baselineFrametime) * 100
 );
 
 // Ensure the minimum Frametime percentage is 100%
