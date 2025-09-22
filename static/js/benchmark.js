@@ -373,16 +373,10 @@ const avgFPSData2 = fpsDataArrays.map((dataArray) =>
 const baselineFPS = Math.min(...avgFPSData2);
 const percentageFPSData = avgFPSData2.map((fps) => (fps / baselineFPS) * 100);
 
-// Ensure the minimum FPS percentage is 100%
-const minPercentage = Math.min(...percentageFPSData);
-const normalizedPercentageFPSData = percentageFPSData.map(
-    (percentage) => percentage - minPercentage + 100
-);
-
 // Create an array of objects to sort both categories and data together
 const sortedData = fpsDataArrays.map((dataArray, index) => ({
     label: dataArray.label,
-    percentage: normalizedPercentageFPSData[index]
+    percentage: percentageFPSData[index]
 }));
 
 // Sort the array by percentage
@@ -634,16 +628,10 @@ const percentageFrametimeData = avgFrametimeData2.map(
     (frametime) => (frametime / baselineFrametime) * 100
 );
 
-// Ensure the minimum Frametime percentage is 100%
-const minFrametimePercentage = Math.min(...percentageFrametimeData);
-const normalizedPercentageFrametimeData = percentageFrametimeData.map(
-    (percentage) => percentage - minFrametimePercentage + 100
-);
-
 // Create an array of objects to sort both categories and data together
 const sortedFrametimeData = frameTimeDataArrays.map((dataArray, index) => ({
     label: dataArray.label,
-    percentage: normalizedPercentageFrametimeData[index]
+    percentage: percentageFrametimeData[index]
 }));
 
 // Sort the array by percentage
