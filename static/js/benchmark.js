@@ -320,7 +320,6 @@ const categories = [];
 const minFPSData = [];
 const avgFPSData1 = [];
 const maxFPSData = [];
-
 fpsDataArrays.forEach((dataArray) => {
     categories.push(dataArray.label);
     minFPSData.push(calculatePercentile(dataArray.data, 1));
@@ -328,12 +327,36 @@ fpsDataArrays.forEach((dataArray) => {
     maxFPSData.push(calculatePercentile(dataArray.data, 97));
 });
 
+// Create combined data for sorting
+const combinedData = categories.map((category, index) => ({
+    category: category,
+    min: minFPSData[index],
+    avg: avgFPSData1[index],
+    max: maxFPSData[index]
+}));
+
+// Sort by average FPS (ascending order - worst to best)
+combinedData.sort((a, b) => a.avg - b.avg);
+
+// Extract sorted data
+const sortedFPSSeries = combinedData.map(item => item.category);
+const sortedMinFPSData = combinedData.map(item => item.min);
+const sortedAvgFPSData = combinedData.map(item => item.avg);
+const sortedMaxFPSData = combinedData.map(item => item.max);
+
+// Series sorted by avg
+const fpsMinAvgMaxSeries = [
+  { name: '97th', data: sortedMaxFPSData, color: '#00FF00' },
+  { name: 'AVG', data: sortedAvgFPSData, color: '#0000FF' },
+  { name: '1%', data: sortedMinFPSData, color: '#FF0000' }
+];
+
 Highcharts.chart('fpsMinMaxAvgChart', {
     ...commonChartOptions,
     chart: { ...commonChartOptions.chart, type: 'bar' },
     title: { ...commonChartOptions.title, text: 'Min/Avg/Max FPS' },
     subtitle: { ...commonChartOptions.subtitle, text: 'More is better' },
-    xAxis: { ...commonChartOptions.xAxis, categories: categories },
+    xAxis: { ...commonChartOptions.xAxis, categories: sortedFPSSeries },
     yAxis: {
         ...commonChartOptions.yAxis,
         title: { text: 'FPS', align: 'high', style: { color: '#FFFFFF' } }
@@ -357,11 +380,7 @@ Highcharts.chart('fpsMinMaxAvgChart', {
         }
     },
     legend: { ...commonChartOptions.legend, reversed: true, enabled: true },
-    series: [
-        { name: '97th', data: maxFPSData, color: '#00FF00' },
-        { name: 'AVG', data: avgFPSData1, color: '#0000FF' },
-        { name: '1%', data: minFPSData, color: '#FF0000' }
-    ]
+    series: fpsMinAvgMaxSeries
 });
 
 // Calculate average FPS for each filename
@@ -392,7 +411,7 @@ Highcharts.chart('fpsAvgChart', {
     chart: { ...commonChartOptions.chart, type: 'bar' },
     title: { ...commonChartOptions.title, text: 'Avg FPS comparison in %' },
     subtitle: { ...commonChartOptions.subtitle, text: 'More is better' },
-    xAxis: { ...commonChartOptions.xAxis, categories: sortedCategories },
+    xAxis: { ...commonChartOptions.xAxis, categories: sortedFPSSeries },
     yAxis: {
         ...commonChartOptions.yAxis,
         min: 95,
@@ -577,12 +596,36 @@ frameTimeDataArrays.forEach((dataArray) => {
     maxFrametimeData.push(calculatePercentile(dataArray.data, 97));
 });
 
+// Create combined frametime data for sorting
+const combinedFrametimeData = frametimeCategories.map((category, index) => ({
+    category: category,
+    min: minFrametimeData[index],
+    avg: avgFrametimeData1[index],
+    max: maxFrametimeData[index]
+}));
+
+// Sort by average frametime (descending order - worst to best)
+combinedFrametimeData.sort((a, b) => b.avg - a.avg);
+
+// Extract sorted frametime data
+const sortedFrametimeSeries = combinedFrametimeData.map(item => item.category);
+const sortedMinFrametimeData = combinedFrametimeData.map(item => item.min);
+const sortedAvgFrametimeData = combinedFrametimeData.map(item => item.avg);
+const sortedMaxFrametimeData = combinedFrametimeData.map(item => item.max);
+
+// Series sorted by avg
+const frametimeMinAvgMaxSeries = [
+  { name: '97th', data: sortedMaxFrametimeData, color: '#00FF00' },
+  { name: 'AVG', data: sortedAvgFrametimeData, color: '#0000FF' },
+  { name: '1%', data: sortedMinFrametimeData, color: '#FF0000' }
+];
+
 Highcharts.chart('frametimeMinMaxAvgChart', {
     ...commonChartOptions,
     chart: { ...commonChartOptions.chart, type: 'bar' },
     title: { ...commonChartOptions.title, text: 'Min/Avg/Max Frametime' },
     subtitle: { ...commonChartOptions.subtitle, text: 'Less is better' },
-    xAxis: { ...commonChartOptions.xAxis, categories: frametimeCategories },
+    xAxis: { ...commonChartOptions.xAxis, categories: sortedFrametimeSeries },
     yAxis: {
         ...commonChartOptions.yAxis,
         title: {
@@ -610,11 +653,7 @@ Highcharts.chart('frametimeMinMaxAvgChart', {
         }
     },
     legend: { ...commonChartOptions.legend, reversed: true, enabled: true },
-    series: [
-        { name: '97th', data: maxFrametimeData, color: '#00FF00' },
-        { name: 'AVG', data: avgFrametimeData1, color: '#0000FF' },
-        { name: '1%', data: minFrametimeData, color: '#FF0000' }
-    ]
+    series: frametimeMinAvgMaxSeries
 });
 
 // Calculate average Frametime for each filename
@@ -654,7 +693,7 @@ Highcharts.chart('frametimeAvgChart', {
     subtitle: { ...commonChartOptions.subtitle, text: 'Less is better' },
     xAxis: {
         ...commonChartOptions.xAxis,
-        categories: sortedFrametimeCategories
+        categories: sortedFrametimeSeries
     },
     yAxis: {
         ...commonChartOptions.yAxis,
