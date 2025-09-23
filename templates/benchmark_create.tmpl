@@ -1,6 +1,8 @@
 {{ template "header.tmpl" . }}
 
 
+<link rel="stylesheet" href="/static/css/benchmark.css" />
+
 <div class="d-flex justify-content-between align-items-center">
     <h2>New benchmark</h2>
 </div>
@@ -59,12 +61,7 @@
 </div>
 
 <ul>
-    <li>
-        Filename (without the extension) is the name of the label.
-        <ul>
-            <li>You cannot rename once benchmark is submitted.</li>
-        </ul>
-    </li>
+    <li>Filename (without the extension) is the name of the label.</li>
     <li>You can upload at max 50 log files for a single benchmark.</li>
     <li>
         You can upload files that contains at maximum 100'000 lines of data.
@@ -296,5 +293,7 @@ toggle_logging=Shift_L+F2
         </p>
     </div>
 </div>
+
+<script src="/static/js/bench-create.js"></script>
 
 {{ template "footer.tmpl" . }}

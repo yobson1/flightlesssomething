@@ -2,3 +2,24 @@
 .table-nowrap th {
     white-space: nowrap;
 }
+/* Wrap inputs in containers */
+.input-container {
+    position: relative;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding-right: 80px; /* Space for counter */
+}
+
+/* Counter positioning */
+.input-container::after {
+    content: attr(data-count) '/' attr(data-max);
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 12px;
+    color: #666;
+    pointer-events: none;
+}

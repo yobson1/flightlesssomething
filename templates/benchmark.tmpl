@@ -8,6 +8,11 @@
     <div>
         {{ if eq .benchmark.UserID .userID }}
             <a
+                class="btn btn-primary me-2"
+                href="/benchmark/{{ .benchmark.ID }}/edit"
+                ><i class="fa-solid fa-edit"></i> Edit</a
+            >
+            <a
                 class="btn btn-danger me-2"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
