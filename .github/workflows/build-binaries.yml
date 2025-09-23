@@ -3,7 +3,7 @@ run-name: Build binaries ${{ github.event.release.tag_name }}
 
 on:
   release:
-    types: [unpublished]
+    types: [published]
 
 jobs:
   build:
@@ -77,6 +77,5 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ env.FILENAME }}.tar.gz
           tag: ${{ github.event.release.tag_name }}
-          release_id: ${{ github.event.release.id }}
           body: ${{ steps.extract_changelog.outputs.CHANGELOG }}
-          overwrite: false
+          overwrite: true
