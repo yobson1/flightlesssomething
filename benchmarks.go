@@ -12,6 +12,10 @@ import (
 )
 
 const BENCHMARKS_PER_PAGE = 10
+const MAX_LABEL_LENGTH = 50
+const MAX_TITLE_LENGTH = 100
+const MAX_DESCRIPTION_LENGTH = 500
+const MAX_FILES_PER_BENCHMARK = 25
 
 func getBenchmarks(c *gin.Context) {
 	session := sessions.Default(c)
@@ -106,6 +110,10 @@ func getBenchmarkCreate(c *gin.Context) {
 		"activePage": "benchmark",
 		"username":   session.Get("Username"),
 		"userID":     session.Get("ID"),
+		"MAX_TITLE_LENGTH": MAX_TITLE_LENGTH,
+		"MAX_DESCRIPTION_LENGTH": MAX_DESCRIPTION_LENGTH,
+		"MAX_LABEL_LENGTH": MAX_LABEL_LENGTH,
+		"MAX_FILES_PER_BENCHMARK": MAX_FILES_PER_BENCHMARK,
 	})
 }
 
@@ -123,25 +131,25 @@ func postBenchmarkCreate(c *gin.Context) {
 	}
 
 	title := strings.TrimSpace(c.PostForm("title"))
-	if len(title) > 100 || title == "" {
+	if len(title) > MAX_TITLE_LENGTH || title == "" {
 		c.HTML(http.StatusUnauthorized, "error.tmpl", gin.H{
 			"activePage": "error",
 			"username":   session.Get("Username"),
 			"userID":     session.Get("ID"),
 
-			"errorMessage": "Title must not be empty or exceed 100 characters",
+			"errorMessage": fmt.Sprintf("Title must not be empty or exceed %d characters", MAX_TITLE_LENGTH),
 		})
 		return
 	}
 
 	description := strings.TrimSpace(c.PostForm("description"))
-	if len(description) > 500 {
+	if len(description) > MAX_DESCRIPTION_LENGTH {
 		c.HTML(http.StatusUnauthorized, "error.tmpl", gin.H{
 			"activePage": "error",
 			"username":   session.Get("Username"),
 			"userID":     session.Get("ID"),
 
-			"errorMessage": "Description must not exceed 500 characters",
+			"errorMessage": fmt.Sprintf("Description must not exceed %d characters", MAX_DESCRIPTION_LENGTH),
 		})
 		return
 	}
@@ -169,21 +177,21 @@ func postBenchmarkCreate(c *gin.Context) {
 		})
 		return
 	}
-	if len(files) > 50 {
+	if len(files) > MAX_FILES_PER_BENCHMARK {
 		c.HTML(http.StatusUnauthorized, "error.tmpl", gin.H{
 			"activePage": "error",
 			"username":   session.Get("Username"),
 			"userID":     session.Get("ID"),
 
-			"errorMessage": "Too many files uploaded (max 50)",
+			"errorMessage": fmt.Sprintf("Too many files uploaded (max %d)", MAX_FILES_PER_BENCHMARK),
 		})
 		return
 	}
 
-	// truncate file names to 50 characters
+	// truncate file names to MAX_LABEL_LENGTH characters
 	for i, file := range files {
-		if len(file.Filename) > 50 {
-			files[i].Filename = file.Filename[:50]
+		if len(file.Filename) > MAX_LABEL_LENGTH {
+			files[i].Filename = file.Filename[:MAX_LABEL_LENGTH]
 		}
 	}
 
@@ -452,6 +460,9 @@ func getBenchmarkEdit(c *gin.Context) {
 		"userID":        session.Get("ID"),
 		"benchmark":     benchmark,
 		"benchmarkData": benchmarkDatas,
+		"MAX_TITLE_LENGTH": MAX_TITLE_LENGTH,
+		"MAX_DESCRIPTION_LENGTH": MAX_DESCRIPTION_LENGTH,
+		"MAX_LABEL_LENGTH": MAX_LABEL_LENGTH,
 	})
 }
 
@@ -497,26 +508,26 @@ func postBenchmarkEdit(c *gin.Context) {
 
 	// Validate title
 	title := strings.TrimSpace(c.PostForm("title"))
-	if len(title) > 100 || title == "" {
+	if len(title) > MAX_TITLE_LENGTH || title == "" {
 		c.HTML(http.StatusBadRequest, "error.tmpl", gin.H{
 			"activePage": "error",
 			"username":   session.Get("Username"),
 			"userID":     session.Get("ID"),
 
-			"errorMessage": "Title must not be empty or exceed 100 characters",
+			"errorMessage": fmt.Sprintf("Title must not be empty or exceed %d characters", MAX_TITLE_LENGTH),
 		})
 		return
 	}
 
 	// Validate description
 	description := strings.TrimSpace(c.PostForm("description"))
-	if len(description) > 500 {
+	if len(description) > MAX_DESCRIPTION_LENGTH {
 		c.HTML(http.StatusBadRequest, "error.tmpl", gin.H{
 			"activePage": "error",
 			"username":   session.Get("Username"),
 			"userID":     session.Get("ID"),
 
-			"errorMessage": "Description must not exceed 500 characters",
+			"errorMessage": fmt.Sprintf("Description must not exceed %d characters", MAX_DESCRIPTION_LENGTH),
 		})
 		return
 	}
@@ -553,7 +564,7 @@ func postBenchmarkEdit(c *gin.Context) {
 	labelsUpdated := false
 	for i, data := range benchmarkDatas {
 		newLabel := strings.TrimSpace(c.PostForm(fmt.Sprintf("label_%d", i)))
-		if len(newLabel) > 50 {
+		if len(newLabel) > MAX_LABEL_LENGTH {
 			continue
 		}
 		if newLabel != "" && newLabel != data.Label {

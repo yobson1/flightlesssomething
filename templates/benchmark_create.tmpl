@@ -10,7 +10,11 @@
 <form action="/benchmark" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="title" class="form-label">Title</label>
-        <div class="input-container" data-count="0" data-max="100">
+        <div
+            class="input-container"
+            data-count="0"
+            data-max="{{ $.MAX_TITLE_LENGTH }}"
+        >
             <input
                 type="text"
                 class="form-control"
@@ -19,7 +23,7 @@
                 placeholder="Title of your benchmark"
                 required
                 name="title"
-                maxlength="100"
+                maxlength="{{ $.MAX_TITLE_LENGTH }}"
             />
             <div id="titleHelp" class="form-text">
                 <small
@@ -35,14 +39,18 @@
         <label for="description" class="form-label"
             >Description <small>(optional)</small></label
         >
-        <div class="input-container" data-count="0" data-max="500">
+        <div
+            class="input-container"
+            data-count="0"
+            data-max="{{ $.MAX_DESCRIPTION_LENGTH }}"
+        >
             <textarea
                 id="description"
                 class="form-control"
                 rows="4"
                 placeholder="Description of your benchmark"
                 name="description"
-                maxlength="500"
+                maxlength="{{ $.MAX_DESCRIPTION_LENGTH }}"
             ></textarea>
         </div>
     </div>
@@ -66,9 +74,16 @@
 
 <ul>
     <li>Filename (without the extension) is the name of the label.</li>
-    <li>You can upload at max 50 log files for a single benchmark.</li>
     <li>
-        You can upload files that contains at maximum 100'000 lines of data.
+        You can upload at max {{ $.MAX_FILES_PER_BENCHMARK }} log files for a
+        single benchmark.
+    </li>
+    <li>
+        You can upload files that contains at maximum 100,000 lines of data.
+    </li>
+    <li>
+        The maximum length of a filename is {{ $.MAX_LABEL_LENGTH }}. Any longer
+        filenames will be truncated.
     </li>
     <li>
         Only MangoHUD (*.csv) and Afterburner (*.hml) formats are supported.

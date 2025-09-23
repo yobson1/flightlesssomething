@@ -13,7 +13,7 @@
         <div
             class="input-container"
             data-count="{{ len .benchmark.Title }}"
-            data-max="100"
+            data-max="{{ $.MAX_TITLE_LENGTH }}"
         >
             <input
                 type="text"
@@ -22,7 +22,7 @@
                 placeholder="Title of your benchmark"
                 required
                 name="title"
-                maxlength="100"
+                maxlength="{{ $.MAX_TITLE_LENGTH }}"
                 value="{{ .benchmark.Title }}"
             />
             <div class="form-text">
@@ -42,7 +42,7 @@
         <div
             class="input-container"
             data-count="{{ len .benchmark.Description }}"
-            data-max="500"
+            data-max="{{ $.MAX_DESCRIPTION_LENGTH }}"
         >
             <textarea
                 id="description"
@@ -50,7 +50,7 @@
                 rows="4"
                 placeholder="Description of your benchmark"
                 name="description"
-                maxlength="500"
+                maxlength="{{ $.MAX_DESCRIPTION_LENGTH }}"
             >
 {{ .benchmark.Description }}</textarea
             >
@@ -72,7 +72,7 @@
                 <div
                     class="input-container"
                     data-count="{{ len $data.Label }}"
-                    data-max="50"
+                    data-max="{{ $.MAX_LABEL_LENGTH }}"
                 >
                     <input
                         type="text"
@@ -81,7 +81,7 @@
                         name="label_{{ $index }}"
                         value="{{ $data.Label }}"
                         placeholder="Enter new label"
-                        maxlength="50"
+                        maxlength="{{ $.MAX_LABEL_LENGTH }}"
                     />
                 </div>
             </div>
