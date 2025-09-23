@@ -10,37 +10,41 @@
 <form action="/benchmark" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="title" class="form-label">Title</label>
-        <input
-            type="text"
-            class="form-control"
-            id="title"
-            aria-describedby="titleHelp"
-            placeholder="Title of your benchmark"
-            required
-            name="title"
-            maxlength="100"
-        />
-        <div id="titleHelp" class="form-text">
-            <small
-                >For example:
-                <code
-                    ><i>Forza Horizon 5: BORE vs SCX schedulers</i></code
-                ></small
-            >
+        <div class="input-container" data-count="0" data-max="100">
+            <input
+                type="text"
+                class="form-control"
+                id="title"
+                aria-describedby="titleHelp"
+                placeholder="Title of your benchmark"
+                required
+                name="title"
+                maxlength="100"
+            />
+            <div id="titleHelp" class="form-text">
+                <small
+                    >For example:
+                    <code
+                        ><i>Forza Horizon 5: BORE vs SCX schedulers</i></code
+                    ></small
+                >
+            </div>
         </div>
     </div>
     <div class="mb-3">
         <label for="description" class="form-label"
             >Description <small>(optional)</small></label
         >
-        <textarea
-            id="description"
-            class="form-control"
-            rows="4"
-            placeholder="Description of your benchmark"
-            name="description"
-            maxlength="500"
-        ></textarea>
+        <div class="input-container" data-count="0" data-max="500">
+            <textarea
+                id="description"
+                class="form-control"
+                rows="4"
+                placeholder="Description of your benchmark"
+                name="description"
+                maxlength="500"
+            ></textarea>
+        </div>
     </div>
     <div class="mb-3">
         <label for="benchFiles" class="form-label">Overlay file(s)</label>
