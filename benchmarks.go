@@ -157,6 +157,7 @@ func postBenchmarkCreate(c *gin.Context) {
 		})
 		return
 	}
+
 	files := form.File["files"]
 	if len(files) == 0 {
 		c.HTML(http.StatusUnauthorized, "error.tmpl", gin.H{
@@ -177,6 +178,13 @@ func postBenchmarkCreate(c *gin.Context) {
 			"errorMessage": "Too many files uploaded (max 50)",
 		})
 		return
+	}
+
+	// truncate file names to 50 characters
+	for i, file := range files {
+		if len(file.Filename) > 50 {
+			files[i].Filename = file.Filename[:50]
+		}
 	}
 
 	// Read CSV files
@@ -545,6 +553,9 @@ func postBenchmarkEdit(c *gin.Context) {
 	labelsUpdated := false
 	for i, data := range benchmarkDatas {
 		newLabel := strings.TrimSpace(c.PostForm(fmt.Sprintf("label_%d", i)))
+		if len(newLabel) > 50 {
+			continue
+		}
 		if newLabel != "" && newLabel != data.Label {
 			data.Label = newLabel
 			labelsUpdated = true

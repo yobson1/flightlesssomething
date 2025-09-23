@@ -69,14 +69,21 @@
                 <label for="label_{{ $index }}" class="form-label"
                     >File {{ $index }} ({{ $data.Label }}):</label
                 >
-                <input
-                    type="text"
-                    class="form-control"
-                    id="label_{{ $index }}"
-                    name="label_{{ $index }}"
-                    value="{{ $data.Label }}"
-                    placeholder="Enter new label"
-                />
+                <div
+                    class="input-container"
+                    data-count="{{ len $data.Label }}"
+                    data-max="50"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="label_{{ $index }}"
+                        name="label_{{ $index }}"
+                        value="{{ $data.Label }}"
+                        placeholder="Enter new label"
+                        maxlength="50"
+                    />
+                </div>
             </div>
         {{- end }}
     </div>
