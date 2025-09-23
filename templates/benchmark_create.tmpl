@@ -9,18 +9,18 @@
 
 <form action="/benchmark" method="post" enctype="multipart/form-data">
     <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Title</label>
+        <label for="title" class="form-label">Title</label>
         <input
             type="text"
             class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
+            id="title"
+            aria-describedby="titleHelp"
             placeholder="Title of your benchmark"
             required
             name="title"
             maxlength="100"
         />
-        <div id="emailHelp" class="form-text">
+        <div id="titleHelp" class="form-text">
             <small
                 >For example:
                 <code
@@ -30,11 +30,11 @@
         </div>
     </div>
     <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label"
+        <label for="description" class="form-label"
             >Description <small>(optional)</small></label
         >
         <textarea
-            id="exampleInputPassword1"
+            id="description"
             class="form-control"
             rows="4"
             placeholder="Description of your benchmark"
@@ -43,11 +43,11 @@
         ></textarea>
     </div>
     <div class="mb-3">
-        <label for="inputGroupFile01" class="form-label">Overlay file(s)</label>
+        <label for="benchFiles" class="form-label">Overlay file(s)</label>
         <input
             type="file"
             class="form-control"
-            id="inputGroupFile01"
+            id="benchFiles"
             required
             multiple
             name="files"
