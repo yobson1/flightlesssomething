@@ -3,7 +3,7 @@ run-name: Build binaries ${{ github.event.release.tag_name }}
 
 on:
   release:
-    types: [published]
+    types: [unpublished]
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: "1.22"
+          go-version: '1.22'
 
       - name: Build binary
         run: |
@@ -35,7 +35,7 @@ jobs:
           version="${{ github.event.release.tag_name }}"
           fullarch="${GOARCH}$(echo ${{ matrix.platform }} | awk -F/ '{print $3}')"
           filename="${reponame}_${version}_${GOOS}_${fullarch}"
-          
+
           go build -ldflags "-w -s -X main.version=$version -extldflags '-static'" -o "$filename" cmd/$reponame/main.go
 
           echo "FILENAME=$filename" >> $GITHUB_ENV
@@ -44,10 +44,39 @@ jobs:
         run: |
           tar -czvf "${{ env.FILENAME }}.tar.gz" "${{ env.FILENAME }}"
 
+      - name: Extract changelog for release
+        id: extract_changelog
+        run: |
+          version="${{ github.event.release.tag_name }}"
+          # Remove 'v' prefix if present for matching
+          version_clean=$(echo "$version" | sed 's/^v//')
+
+          # Extract changelog section for this version
+          changelog=$(awk -v version="$version_clean" '
+          BEGIN { found=0; content="" }
+          /^## / {
+            if (found) exit
+            if ($2 == version) found=1
+            next
+          }
+          found && /^## / { exit }
+          found { content = content $0 "\n" }
+          END {
+            if (content != "") print content
+          }
+          ' CHANGELOG.md)
+
+          # Set output using multiline format
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$changelog" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Upload binary
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ env.FILENAME }}.tar.gz
           tag: ${{ github.event.release.tag_name }}
+          release_id: ${{ github.event.release.id }}
+          body: ${{ steps.extract_changelog.outputs.CHANGELOG }}
           overwrite: false
