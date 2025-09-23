@@ -1,9 +1,9 @@
 services:
   flightlesssomething:
-    image: ghcr.io/erkexzcx/flightlesssomething:latest
+    image: ghcr.io/yobson1/flightlesssomething:latest
     container_name: flightlesssomething
     ports:
-      - '8080:8080'
+      - '8800:8080'
     volumes:
       - ./flightlesssomething/data:/data
     environment:
