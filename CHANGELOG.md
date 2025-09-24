@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.2
+- Fix docker builds
+
 ## 0.1.1
 - Fix the bars of the relative average charts being disproportionate to the actual % change
 - Change the labels of Min/Avg/Max charts to Max/Avg/Min to reflect the order of the bars in the chart

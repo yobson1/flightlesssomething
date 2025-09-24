@@ -42,14 +42,13 @@ jobs:
 
       - name: Build and push Docker images
         id: build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=ghcr.io/${{ github.repository }},push-by-digest=true,name-canonical=true,push=true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          no-cache: true
           build-args: |
             version=${{ github.event.release.tag_name }}
 
@@ -83,6 +82,7 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           path: /tmp/digests
+          pattern: digests-*
           merge-multiple: true
 
       - name: Set up Docker Buildx
