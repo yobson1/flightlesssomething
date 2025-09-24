@@ -6,4 +6,4 @@ import "embed"
 var templatesFS embed.FS
 
 //go:embed static/*
-var staticFS embed.FS
+var staticFiles embed.FS

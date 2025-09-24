@@ -1,8 +1,6 @@
 package flightlesssomething
 
 import (
-	"bytes"
-	"fmt"
 	"html/template"
 	"io/fs"
 	"log"
@@ -118,44 +116,11 @@ func Start(c *Config, version string) {
 	r.SetHTMLTemplate(tmpl)
 
 	// Serve static files
-	r.GET("/static/*filepath", func(c *gin.Context) {
-		filepath := c.Param("filepath")
-		file, err := staticFS.Open("static" + filepath)
-		if err != nil {
-			c.Status(http.StatusNotFound)
-			return
-		}
-		defer file.Close()
-
-		// Get file info
-		fileInfo, err := file.Stat()
-		if err != nil {
-			c.Status(http.StatusInternalServerError)
-			return
-		}
-
-		// Generate ETag based on file modification time
-		etag := fmt.Sprintf("%x-%x", fileInfo.ModTime().Unix(), fileInfo.Size())
-
-		// Set ETag header
-		c.Header("ETag", etag)
-
-		// Check if the ETag matches
-		if match := c.GetHeader("If-None-Match"); match == etag {
-			c.Status(http.StatusNotModified)
-			return
-		}
-
-		// Read file content into a byte slice
-		content, err := fs.ReadFile(staticFS, "static"+filepath)
-		if err != nil {
-			c.Status(http.StatusInternalServerError)
-			return
-		}
-
-		// Serve the file with ETag and Last-Modified headers
-		http.ServeContent(c.Writer, c.Request, fileInfo.Name(), fileInfo.ModTime(), bytes.NewReader(content))
-	})
+	staticFS, err := fs.Sub(staticFiles, "static")
+	if err != nil {
+		log.Fatalf("Failed to create static file system: %v", err)
+	}
+	r.StaticFS("/static/", http.FS(staticFS))
 
 	r.GET("/", func(c *gin.Context) { c.Redirect(http.StatusTemporaryRedirect, "/benchmarks") })
 
