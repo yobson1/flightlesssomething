@@ -522,17 +522,14 @@ Highcharts.chart('fpsDensityChart', {
     series: densityData
 });
 
-function calculateStandardDeviation(data) {
-    const mean = calculateAverage(data);
-    const squaredDiffs = data.map((value) => Math.pow(value - mean, 2));
-    const avgSquaredDiff = calculateAverage(squaredDiffs);
-    return Math.sqrt(avgSquaredDiff);
-}
-
 function calculateVariance(data) {
     const mean = calculateAverage(data);
     const squaredDiffs = data.map((value) => Math.pow(value - mean, 2));
     return calculateAverage(squaredDiffs);
+}
+
+function calculateStandardDeviation(data) {
+    return Math.sqrt(calculateVariance(data));
 }
 
 // ===========================================================================================
