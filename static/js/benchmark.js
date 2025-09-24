@@ -414,7 +414,7 @@ Highcharts.chart('fpsAvgChart', {
     xAxis: { ...commonChartOptions.xAxis, categories: sortedFPSSeries },
     yAxis: {
         ...commonChartOptions.yAxis,
-        min: 95,
+        min: 0,
         title: {
             text: 'Percentage (%)',
             align: 'high',
@@ -699,7 +699,7 @@ Highcharts.chart('frametimeAvgChart', {
     },
     yAxis: {
         ...commonChartOptions.yAxis,
-        min: 95,
+        min: 0,
         title: {
             text: 'Percentage (%)',
             align: 'high',
