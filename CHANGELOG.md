@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+- Fix the bars of the relative average charts being disproportionate to the actual % change
+- Change the labels of Min/Avg/Max charts to Max/Avg/Min to reflect the order of the bars in the chart
+
 ## 0.1.0
 - Allow users to edit their uploaded benchmark details
 - Sort FPS & frametime bar charts from worst to best
