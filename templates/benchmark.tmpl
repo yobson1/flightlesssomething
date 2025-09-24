@@ -93,21 +93,7 @@
             aria-controls="fps"
             aria-selected="false"
         >
-            <i class="fas fa-tachometer-alt"></i> FPS
-        </button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button
-            class="nav-link"
-            id="frametime-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#frametime"
-            type="button"
-            role="tab"
-            aria-controls="frametime"
-            aria-selected="false"
-        >
-            <i class="fas fa-clock"></i> Frametime
+            <i class="fas fa-tachometer-alt"></i> Performance
         </button>
     </li>
     <li class="nav-item" role="presentation">
@@ -147,23 +133,10 @@
         role="tabpanel"
         aria-labelledby="fps-tab"
     >
-        <div id="fpsChart2" style="height:250pt;"></div>
         <div id="fpsMinMaxAvgChart" style="height:500pt;"></div>
-        <div id="fpsDensityChart" style="height:250pt;"></div>
-        <div id="fpsAvgChart" style="height:250pt;"></div>
-    </div>
-
-    <!-- Frametime tab -->
-    <div
-        class="tab-pane fade"
-        id="frametime"
-        role="tabpanel"
-        aria-labelledby="frametime-tab"
-    >
         <div id="frameTimeChart2" style="height:250pt;"></div>
-        <div id="frametimeMinMaxAvgChart" style="height:500pt;"></div>
+        <div id="fpsAvgChart" style="height:250pt;"></div>
         <div id="frametimeDensityChart" style="height:250pt;"></div>
-        <div id="frametimeAvgChart" style="height:250pt;"></div>
         <div id="frametimeStddevVarianceChart" style="height:400pt;"></div>
     </div>
 
