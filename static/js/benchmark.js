@@ -339,22 +339,22 @@ const combinedData = categories.map((category, index) => ({
 combinedData.sort((a, b) => a.avg - b.avg);
 
 // Extract sorted data
-const sortedFPSSeries = combinedData.map(item => item.category);
-const sortedMinFPSData = combinedData.map(item => item.min);
-const sortedAvgFPSData = combinedData.map(item => item.avg);
-const sortedMaxFPSData = combinedData.map(item => item.max);
+const sortedFPSSeries = combinedData.map((item) => item.category);
+const sortedMinFPSData = combinedData.map((item) => item.min);
+const sortedAvgFPSData = combinedData.map((item) => item.avg);
+const sortedMaxFPSData = combinedData.map((item) => item.max);
 
 // Series sorted by avg
 const fpsMinAvgMaxSeries = [
-  { name: '97th', data: sortedMaxFPSData, color: '#00FF00' },
-  { name: 'AVG', data: sortedAvgFPSData, color: '#0000FF' },
-  { name: '1%', data: sortedMinFPSData, color: '#FF0000' }
+    { name: '97th', data: sortedMaxFPSData, color: '#00FF00' },
+    { name: 'AVG', data: sortedAvgFPSData, color: '#0000FF' },
+    { name: '1%', data: sortedMinFPSData, color: '#FF0000' }
 ];
 
 Highcharts.chart('fpsMinMaxAvgChart', {
     ...commonChartOptions,
     chart: { ...commonChartOptions.chart, type: 'bar' },
-    title: { ...commonChartOptions.title, text: 'Min/Avg/Max FPS' },
+    title: { ...commonChartOptions.title, text: 'Max/Avg/Min FPS' },
     subtitle: { ...commonChartOptions.subtitle, text: 'More is better' },
     xAxis: { ...commonChartOptions.xAxis, categories: sortedFPSSeries },
     yAxis: {
@@ -608,22 +608,24 @@ const combinedFrametimeData = frametimeCategories.map((category, index) => ({
 combinedFrametimeData.sort((a, b) => b.avg - a.avg);
 
 // Extract sorted frametime data
-const sortedFrametimeSeries = combinedFrametimeData.map(item => item.category);
-const sortedMinFrametimeData = combinedFrametimeData.map(item => item.min);
-const sortedAvgFrametimeData = combinedFrametimeData.map(item => item.avg);
-const sortedMaxFrametimeData = combinedFrametimeData.map(item => item.max);
+const sortedFrametimeSeries = combinedFrametimeData.map(
+    (item) => item.category
+);
+const sortedMinFrametimeData = combinedFrametimeData.map((item) => item.min);
+const sortedAvgFrametimeData = combinedFrametimeData.map((item) => item.avg);
+const sortedMaxFrametimeData = combinedFrametimeData.map((item) => item.max);
 
 // Series sorted by avg
 const frametimeMinAvgMaxSeries = [
-  { name: '97th', data: sortedMaxFrametimeData, color: '#00FF00' },
-  { name: 'AVG', data: sortedAvgFrametimeData, color: '#0000FF' },
-  { name: '1%', data: sortedMinFrametimeData, color: '#FF0000' }
+    { name: '97th', data: sortedMaxFrametimeData, color: '#00FF00' },
+    { name: 'AVG', data: sortedAvgFrametimeData, color: '#0000FF' },
+    { name: '1%', data: sortedMinFrametimeData, color: '#FF0000' }
 ];
 
 Highcharts.chart('frametimeMinMaxAvgChart', {
     ...commonChartOptions,
     chart: { ...commonChartOptions.chart, type: 'bar' },
-    title: { ...commonChartOptions.title, text: 'Min/Avg/Max Frametime' },
+    title: { ...commonChartOptions.title, text: 'Max/Avg/Min Frametime' },
     subtitle: { ...commonChartOptions.subtitle, text: 'Less is better' },
     xAxis: { ...commonChartOptions.xAxis, categories: sortedFrametimeSeries },
     yAxis: {
