@@ -535,51 +535,6 @@ function calculateVariance(data) {
     return calculateAverage(squaredDiffs);
 }
 
-const sdvCategories = fpsDataArrays.map((dataArray) => dataArray.label);
-const standardDeviations = fpsDataArrays.map((dataArray) =>
-    calculateStandardDeviation(dataArray.data)
-);
-const variances = fpsDataArrays.map((dataArray) =>
-    calculateVariance(dataArray.data)
-);
-
-Highcharts.chart('fpsStddevVarianceChart', {
-    ...commonChartOptions,
-    chart: { ...commonChartOptions.chart, type: 'bar' },
-    title: { ...commonChartOptions.title, text: 'FPS Stability' },
-    subtitle: {
-        ...commonChartOptions.subtitle,
-        text: 'Measures of FPS consistency (std. dev.) and spread (variance). Less is better.'
-    },
-    xAxis: { ...commonChartOptions.xAxis, categories: sdvCategories },
-    yAxis: {
-        ...commonChartOptions.yAxis,
-        title: { text: 'Value', align: 'high', style: { color: '#FFFFFF' } }
-    },
-    tooltip: {
-        ...commonChartOptions.tooltip,
-        formatter: function () {
-            return `<b>${this.series.name}</b>: ${this.y.toFixed(2)}`;
-        }
-    },
-    plotOptions: {
-        bar: {
-            dataLabels: {
-                enabled: true,
-                style: { color: '#FFFFFF' },
-                formatter: function () {
-                    return this.y.toFixed(2);
-                }
-            }
-        }
-    },
-    legend: { ...commonChartOptions.legend, enabled: true },
-    series: [
-        { name: 'Std. Dev.', data: standardDeviations, color: '#FF5733' },
-        { name: 'Variance', data: variances, color: '#33FF57' }
-    ]
-});
-
 // ===========================================================================================
 // Frametime-related charts
 
