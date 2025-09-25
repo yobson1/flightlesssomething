@@ -35,11 +35,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: inject go-build-cache into docker
-        uses: reproducible-containers/buildkit-cache-dance@v2.1.2
-        with:
-          cache-source: go-build-cache
-
       - name: Build and push Docker images
         id: build
         uses: docker/build-push-action@v6
@@ -48,7 +43,8 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=ghcr.io/${{ github.repository }},push-by-digest=true,name-canonical=true,push=true
-          no-cache: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           build-args: |
             version=${{ github.event.release.tag_name }}
 
@@ -104,5 +100,5 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< '${{ steps.meta.outputs.json }}') \
             $(printf 'ghcr.io/${{ github.repository }}@sha256:%s ' *)

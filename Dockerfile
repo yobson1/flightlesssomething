@@ -2,6 +2,8 @@ FROM --platform=$BUILDPLATFORM golang:1.22-alpine AS builder
 WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
+COPY templates/ templates/
+COPY static/ static/
 COPY . .
 ARG TARGETOS
 ARG TARGETARCH
